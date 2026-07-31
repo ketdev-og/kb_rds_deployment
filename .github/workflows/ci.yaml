@@ -2,10 +2,10 @@ name: CI
 on:
   pull_request:
     branches:
-      - main
+      - master
   push:
     branches:
-      - main
+      - master
 
 jobs:
   test:
@@ -43,5 +43,5 @@ jobs:
           java-version: 21
           distribution: temurin
           cache: gradle
-          
+
       - run: ./gradlew test
