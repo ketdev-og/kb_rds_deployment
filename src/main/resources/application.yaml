@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: kb-spring
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      username: ${REDIS_USERNAME:}
+      connect-timeout: ${REDIS_CONNECT_TIMEOUT:2000}
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update      # create/update tables from entities (fine for learning, NOT prod)
+    show-sql: true          # log every SQL statement — this is how we'll see cache hits/misses
+    properties:
+      hibernate.format_sql: true
+  datasource:
+    connection-fetch: lazy
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:vas_postgres_db}
+    username: ${POSTGRES_USER:vas_postgres_user}
+    password: ${POSTGRES_PASSWORD:manager123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${HIKARI_MAX_POOL_SIZE:10}
+      minimum-idle: ${HIKARI_MIN_IDLE:10}
+      idle-timeout: ${HIKARI_IDLE_TIMEOUT:30000}
+      max-lifetime: ${HIKARI_MAX_LIFETIME:1800000}
+      connection-timeout: ${HIKARI_CONNECTION_TIMEOUT:30000}
+
+server:
+  port: ${PORT:3000}
+  servlet:
+    context-path: /api/kb/spring
+
+profiles:
+  active: ${PROFILE:dev}
