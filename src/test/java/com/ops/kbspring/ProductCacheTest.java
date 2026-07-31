@@ -37,11 +37,12 @@ public class ProductCacheTest {
 
     @Test
     void secondCallIsCached() {
-        long miss = time(() -> productService.getProduct(1L));
-        long hit = time(() -> productService.getProduct(1L));
+        assertThat(Objects.requireNonNull(cacheManager.getCache("products")).get(1L)).isNull();
+        ProductModel miss =  productService.getProduct(1L);
+        ProductModel hit = productService.getProduct(1L);
 
-        assertThat(miss).isGreaterThan(1000);
-        assertThat(hit).isLessThan(100);
+       assertThat(cacheManager.getCache("products").get(1L, ProductModel.class)).isEqualTo(miss);
+       assertThat(miss).isEqualTo(hit);
     }
 
 
